@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-TW"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>聯絡我們 — arLoupe · Bewelltech</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&amp;family=Hanken+Grotesk:wght@400;500;600;700;800&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12160F; --ink2:#1b2117; --pine:#2A4A33; --lime:#6FA821; --lime-br:#8FCB3C;
+    --grey:#868686; --paper:#F7F8F3; --mist:#E4E6DE; --line:#dfe1da; --muted:#5e6258; --paper-muted:#6b6f64;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--paper);color:var(--ink);font-family:"Hanken Grotesk","Noto Sans TC",system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  .disp{font-family:"Familjen Grotesk","Noto Serif TC",serif;}
+  .mono{font-family:"Space Mono","Noto Sans TC",monospace;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 40px;}
+  .eyebrow{font-family:"Space Mono","Noto Sans TC",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;}
+  a{color:inherit;text-decoration:none;}
+  .rv{opacity:1;transform:none;}
+  body.anim .rv{opacity:0;transform:translateY(22px);transition:opacity .6s cubic-bezier(.2,.7,.2,1),transform .6s cubic-bezier(.2,.7,.2,1);}
+  body.anim .rv.in{opacity:1;transform:none;}
+  @media(prefers-reduced-motion:reduce){body.anim .rv{opacity:1!important;transform:none!important;}}
+
+  nav.bar{position:sticky;top:0;z-index:40;background:rgba(18,22,15,.9);backdrop-filter:blur(12px);border-bottom:1px solid #262c20;}
+  nav.bar .inner{max-width:1180px;margin:0 auto;padding:14px 40px;display:flex;align-items:center;justify-content:space-between;gap:24px;}
+  nav.bar .logo{height:26px;display:block;}
+  nav.bar .links{display:flex;gap:26px;font-size:14px;font-weight:500;color:#c3c7bc;white-space:nowrap;}
+  nav.bar .links a:hover{color:var(--lime-br);}
+  nav.bar .links a.active{color:var(--lime-br);}
+  nav.bar .demo{font-size:13px;font-weight:700;color:#10210a;background:var(--lime);padding:10px 18px;border-radius:999px;white-space:nowrap;}
+  nav.bar .demo:hover{background:var(--lime-br);}
+  @media(max-width:820px){nav.bar .links{display:none;}}
+
+  .btn-lime{font-weight:700;font-size:15px;color:#10210a;background:var(--lime);padding:14px 26px;border-radius:999px;display:inline-flex;align-items:center;gap:9px;white-space:nowrap;border:none;cursor:pointer;font-family:inherit;}
+  .btn-lime:hover{background:var(--lime-br);}
+
+  /* HERO */
+  .chero{background:var(--ink);color:var(--paper);position:relative;overflow:hidden;padding:74px 0 60px;}
+  .chero::before{content:"";position:absolute;inset:0;background:radial-gradient(820px 460px at 82% -15%, rgba(111,168,33,.16), transparent 60%);pointer-events:none;}
+  .chero .inner{position:relative;}
+  .chero .eyebrow{color:var(--lime-br);}
+  .chero h1{font-family:"Familjen Grotesk","Noto Serif TC",serif;font-weight:600;font-size:clamp(40px,5.6vw,76px);line-height:.98;letter-spacing:-.03em;margin:18px 0 18px;}
+  .chero h1 em{font-style:normal;color:var(--lime-br);}
+  .chero p.sub{font-size:clamp(17px,1.9vw,21px);color:#c4c8bd;max-width:560px;}
+
+  /* BODY */
+  .cbody{padding:70px 0 90px;}
+  .cgrid{display:grid;grid-template-columns:1.1fr .9fr;gap:54px;align-items:start;}
+  @media(max-width:880px){.cgrid{grid-template-columns:1fr;gap:40px;}}
+
+  .form{background:#fff;border:1px solid var(--line);border-radius:20px;padding:34px;}
+  .form h2{font-family:"Familjen Grotesk","Noto Serif TC",serif;font-size:24px;font-weight:600;margin-bottom:6px;letter-spacing:-.01em;}
+  .form .fsub{font-size:14.5px;color:var(--muted);margin-bottom:24px;}
+  .field{margin-bottom:18px;}
+  .field label{display:block;font-size:13px;font-weight:600;margin-bottom:7px;color:#3c4037;}
+  .field label .req{color:var(--lime);}
+  .field input, .field textarea, .field select{width:100%;font-family:"Hanken Grotesk","Noto Sans TC",sans-serif;font-size:15px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:13px 15px;outline:none;transition:.15s;}
+  .field textarea{min-height:120px;resize:vertical;}
+  .field input:focus,.field textarea:focus,.field select:focus{border-color:var(--lime);box-shadow:0 0 0 3px rgba(111,168,33,.13);background:#fff;}
+  .form .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media(max-width:520px){.form .row2{grid-template-columns:1fr;}}
+  .formnote{font-size:12.5px;color:var(--muted);margin-top:6px;}
+  .thanks{display:none;text-align:center;padding:30px 10px;}
+  .thanks.show{display:block;}
+  .thanks .ic{width:60px;height:60px;border-radius:50%;background:#eaf4dd;color:var(--lime);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:30px;}
+  .thanks h3{font-family:"Familjen Grotesk","Noto Serif TC",serif;font-size:24px;font-weight:600;margin-bottom:8px;}
+  .thanks p{font-size:15px;color:var(--muted);}
+  .form.sent .fields{display:none;}
+
+  .info{display:flex;flex-direction:column;gap:14px;}
+  .infocard{border-radius:18px;padding:28px;}
+  .infocard.dark{background:var(--ink);color:#eef0ea;}
+  .infocard.dark .k{font-family:"Space Mono","Noto Sans TC",monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--lime-br);}
+  .infocard.dark h3{font-family:"Familjen Grotesk","Noto Serif TC",serif;font-size:21px;font-weight:600;margin:10px 0 14px;}
+  .infocard.dark .line{display:flex;gap:11px;align-items:flex-start;font-size:14.5px;color:#cdd2c6;margin-bottom:10px;}
+  .infocard.dark .line a{color:#cdd2c6;}
+  .infocard.dark .line a:hover{color:var(--lime-br);}
+  .infocard.dark .line .ic{flex:none;width:16px;color:#6c7264;margin-top:2px;}
+  .infocard.pine{background:var(--pine);color:#eef0ea;}
+  .infocard.pine .k{font-family:"Space Mono","Noto Sans TC",monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--lime-br);}
+  .infocard.pine h3{font-family:"Familjen Grotesk","Noto Serif TC",serif;font-size:21px;font-weight:600;margin:10px 0 8px;}
+  .infocard.pine p{font-size:14.5px;color:#cdd9bf;margin-bottom:16px;}
+  .infocard.pine a.link{font-weight:700;font-size:14px;color:var(--lime-br);display:inline-flex;align-items:center;gap:7px;}
+  .infocard.light{background:#fff;border:1px solid var(--line);}
+  .infocard.light .k{font-family:"Space Mono","Noto Sans TC",monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--paper-muted);}
+  .infocard.light h3{font-family:"Familjen Grotesk","Noto Serif TC",serif;font-size:18px;font-weight:600;margin:10px 0 6px;}
+  .infocard.light p{font-size:14px;color:#54584e;}
+
+  footer.site{background:var(--ink);color:#aeb3a6;padding:56px 0 40px;}
+  footer.site .top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;border-bottom:1px solid #262c20;padding-bottom:32px;}
+  footer.site .logo{height:30px;margin-bottom:16px;}
+  footer.site .top .col p{font-size:14px;max-width:34ch;}
+  footer.site .fnav{display:flex;gap:50px;flex-wrap:wrap;}
+  footer.site .fnav .grp h5{font-family:"Space Mono","Noto Sans TC",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#7c8174;margin-bottom:12px;}
+  footer.site .fnav .grp a{display:block;font-size:14.5px;color:#c3c7bc;margin-bottom:9px;}
+  footer.site .fnav .grp a:hover{color:var(--lime-br);}
+  footer.site .legal{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:26px;font-size:13px;color:#71766a;}
+
+.langsw{display:flex;gap:2px;align-items:center;}
+.langsw a{font-family:"Space Mono","Noto Sans TC",monospace;font-size:12px;color:#9aa090;padding:5px 8px;border-radius:7px;text-decoration:none;line-height:1;}
+.langsw a:hover{color:#8FCB3C;}
+.langsw a.on{color:#10210a;background:#6FA821;font-weight:700;}
+
+  /* ===== CJK headline tuning · Serif B2 (Noto Serif TC 400) ===== */
+  .disp,.hero h1,.phero h1,.chero h1,.sec-title,.shiftcard h3,.pillar h3,.pillar .pn,.model h4,.feat h4,.stat .num,.cta h2,.mission .big,.problem h2,.problem .quote,.solution h2,.story h2,.fact .v,.vision h2,.rmap h3,.pedigree h2,.joincta h2,.card h3,.mcard h3,.step .sn,.step h4,.spec-row .v,.fittool .q,.fittool .wdval,.size .sz,.qa .q h4,.ctable .h,.form h2,.thanks h3,.infocard.dark h3,.infocard.pine h3,.infocard.light h3{font-weight:400;}
+  .hero h1,.phero h1,.chero h1{line-height:1.18;}
+  .sec-title,.solution h2,.problem h2,.story h2,.vision h2,.pedigree h2,.cta h2,.joincta h2,.mission .big,.mcard h3,.shiftcard h3,.pillar h3{line-height:1.24;}
+  .region-group h2,.badge{font-family:"Hanken Grotesk","Noto Sans TC",sans-serif;font-weight:600;}
+
+  /* ===== RESPONSIVE / MOBILE NAV ===== */
+  .menu-btn{display:none;background:none;border:0;cursor:pointer;padding:8px;margin-right:-8px;}
+  .menu-btn span{display:block;width:24px;height:2px;background:#d4d8cd;border-radius:2px;transition:.25s;}
+  .menu-btn span+span{margin-top:5px;}
+  .menu-btn.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .menu-btn.open span:nth-child(2){opacity:0;}
+  .menu-btn.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  .mobile-menu{display:none;flex-direction:column;padding:6px 40px 16px;border-top:1px solid #262c20;background:rgba(18,22,15,.96);}
+  .mobile-menu.open{display:flex;}
+  .mobile-menu .mlink{color:#cfd3c8;font-size:17px;font-weight:500;padding:14px 2px;border-bottom:1px solid #20261a;}
+  .mobile-menu .mlink.active{color:var(--lime-br);}
+  .mobile-menu .mm-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:16px;}
+  .mobile-menu .mm-foot .demo{font-size:14px;font-weight:700;color:#10210a;background:var(--lime);padding:11px 20px;border-radius:999px;white-space:nowrap;}
+  @media(min-width:821px){.mobile-menu{display:none!important;}}
+  @media(max-width:820px){
+    nav.bar .links{display:none;}
+    nav.bar .inner>.langsw{display:none;}
+    nav.bar .inner>.demo{display:none;}
+    .menu-btn{display:block;}
+    .hero{min-height:auto;padding:118px 0 76px;}
+  }
+  @media(max-width:560px){
+    .wrap{padding:0 22px;}
+    nav.bar .inner{padding:13px 22px;}
+    .mobile-menu{padding-left:22px;padding-right:22px;}
+    section.pad{padding:56px 0;}
+    .mission,.problem,.solution,.story,.vision,.pedigree,.cbody{padding:54px 0;}
+    .stats{padding:46px 0;}
+    .hero .cta-row a,.phero .cta-row a,.cta .cta-row a{flex:1 1 100%;display:inline-flex;justify-content:center;}
+  }
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&amp;family=Noto+Serif+TC:wght@300;400;500;600&amp;display=swap"></head>
+<body>
+
+<nav class="bar">
+  <div class="inner">
+    <a href="index.html"><img class="logo" src="../assets/arloupe-logo.png" alt="arLoupe"></a>
+    <div class="links">
+      <a href="index.html">首頁</a>
+      <a href="Products.html">產品</a>
+      <a href="About Us.html">關於我們</a>
+      <a href="Find a Dealer.html">尋找經銷商</a>
+      <a href="Contact.html" class="active">聯絡我們</a>
+    </div>
+    <div class="langsw"><a href="../Contact.html">EN</a><a href="../zh-CN/Contact.html">简</a><a href="Contact.html" class="on">繁</a></div><a href="Contact.html" class="demo">預約展示</a>
+    <button class="menu-btn" id="menuBtn" aria-label="選單" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a class="mlink" href="index.html">首頁</a>
+    <a class="mlink" href="Products.html">產品</a>
+    <a class="mlink" href="About Us.html">關於我們</a>
+    <a class="mlink" href="Find a Dealer.html">尋找經銷商</a>
+    <a class="mlink active" href="Contact.html">聯絡我們</a>
+    <div class="mm-foot">
+      <div class="langsw"><a href="../Contact.html">EN</a><a href="../zh-CN/Contact.html">简</a><a href="Contact.html" class="on">繁</a></div>
+      <a href="Contact.html" class="demo">預約展示</a>
+    </div>
+  </div>
+</nav>
+
+<header class="chero">
+  <div class="wrap inner">
+    <div class="eyebrow rv">與我們聯絡</div>
+    <h1 class="rv">預約試戴。 <em>親身體驗。</em></h1>
+    <p class="sub rv">告訴我們您的診所情況，我們將安排一場 15 分鐘、絕無義務的展示——在您的診所，使用完整的 arLoupe 系統。</p>
+  </div>
+</header>
+
+<section class="cbody">
+  <div class="wrap">
+    <div class="cgrid">
+      <!-- FORM -->
+      <div class="form rv" id="form">
+        <div class="fields">
+          <h2 class="disp">預約展示</h2>
+          <p class="fsub">視覺化專員將與您聯絡安排時間。</p>
+          <div class="row2">
+            <div class="field"><label>名字 <span class="req">*</span></label><input type="text" id="fn" placeholder="名字"></div>
+            <div class="field"><label>姓氏 <span class="req">*</span></label><input type="text" id="ln" placeholder="姓氏"></div>
+          </div>
+          <div class="field"><label>電子郵件 <span class="req">*</span></label><input type="email" id="em" placeholder="jane@practice.com"></div>
+          <div class="row2">
+            <div class="field"><label>診所 / 機構</label><input type="text" id="pr" placeholder="診所名稱"></div>
+            <div class="field"><label>專科</label>
+              <select id="sp">
+                <option value="">請選擇…</option>
+                <option>一般牙科</option>
+                <option>牙髓病科</option>
+                <option>牙周病科</option>
+                <option>植牙科</option>
+                <option>口腔外科</option>
+                <option>整形 / 耳鼻喉 / 血管</option>
+                <option>臨床教學</option>
+                <option>其他</option>
+              </select>
+            </div>
+          </div>
+          <div class="field"><label>還有什麼需要告訴我們的嗎？</label><textarea id="msg" placeholder="您的工作距離、目前使用的放大鏡、想了解的內容…"></textarea></div>
+          <button class="btn-lime" id="submit">預約我的試戴 →</button>
+          <p class="formnote">送出即表示您同意就 arLoupe 接受聯絡。我們絕不分享您的資料。</p>
+        </div>
+        <div class="thanks" id="thanks">
+          <div class="ic">✓</div>
+          <h3 class="disp">謝謝——我們已收到。</h3>
+          <p>視覺化專員將在一個工作日內透過電子郵件與您聯絡，安排展示。</p>
+        </div>
+      </div>
+
+      <!-- INFO -->
+      <div class="info">
+        <div class="infocard dark rv">
+          <div class="k">全球總部</div>
+          <h3 class="disp">Bewelltech Inc.</h3>
+          <div class="line"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg><span>台灣台北</span></div>
+          <div class="line"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg><a href="mailto:info@bewelltechs.com">info@bewelltechs.com</a></div>
+          <div class="line"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"></path></svg><a href="https://bewelltechs.com">bewelltechs.com</a></div>
+        </div>
+        <div class="infocard pine rv">
+          <div class="k">已有所屬地區？</div>
+          <h3 class="disp">聯絡您的當地經銷商。</h3>
+          <p>arLoupe 透過 15+ 國家的授權經銷商銷售——他們以您的母語提供適配、展示與支援。</p>
+          <a href="Find a Dealer.html" class="link">尋找當地經銷商 →</a>
+        </div>
+        <div class="infocard light rv">
+          <div class="k">回應時間</div>
+          <h3 class="disp">一個工作日內</h3>
+          <p>展示通常安排在同一週內，視您所在地區專員的檔期而定。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="top">
+      <div class="col">
+        <img class="logo" src="../assets/arloupe-logo.png" alt="arLoupe">
+        <p>Bewelltech Inc. — 將外科視野數位化，讓臨床醫師看得更清、全程在場、即時教學。</p>
+      </div>
+      <div class="fnav">
+        <div class="grp"><h5>產品</h5><a href="Products.html">arLoupe</a><a href="Products.html#features">功能特色</a><a href="Products.html#faq">常見問題</a></div>
+        <div class="grp"><h5>公司</h5><a href="About Us.html">關於我們</a><a href="Find a Dealer.html">尋找經銷商</a><a href="Contact.html">聯絡我們</a></div>
+        <div class="grp"><h5>總部</h5><a href="Contact.html">台灣台北</a><a href="mailto:info@bewelltechs.com">info@bewelltechs.com</a><a href="https://bewelltechs.com">bewelltechs.com</a></div>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© 2026 Bewelltech Inc. 版權所有。</span>
+      <span class="mono">arLoupe® · 數位外科視野</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('submit').addEventListener('click',()=>{
+  const fn=document.getElementById('fn').value.trim();
+  const em=document.getElementById('em').value.trim();
+  if(!fn || !em || !/.+@.+\..+/.test(em)){
+    if(!fn) document.getElementById('fn').focus();
+    else document.getElementById('em').focus();
+    [document.getElementById('fn'),document.getElementById('em')].forEach(el=>{ if(!el.value.trim()||(el.id==='em'&&!/.+@.+\..+/.test(el.value))) el.style.borderColor='#c2691b'; });
+    return;
+  }
+  document.getElementById('form').classList.add('sent');
+  document.getElementById('thanks').classList.add('show');
+});
+
+(function(){
+  const els=document.querySelectorAll('.rv');
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.body.classList.add('anim');
+  const reveal=el=>el.classList.add('in');
+  const vh=window.innerHeight;
+  els.forEach((el,i)=>{ el.style.transitionDelay=(Math.min(i%6,5)*50)+'ms'; });
+  els.forEach(el=>{ if(el.getBoundingClientRect().top < vh*0.95) reveal(el); });
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){reveal(e.target);io.unobserve(e.target);}});},{threshold:.1, rootMargin:'0px 0px -6% 0px'});
+  els.forEach(el=>io.observe(el));
+  setTimeout(()=>els.forEach(reveal), 1600);
+})();
+</script>
+
+
+<script>
+(function(){
+  var b=document.getElementById('menuBtn'),m=document.getElementById('mobileMenu');
+  if(!b||!m) return;
+  b.addEventListener('click',function(){var o=m.classList.toggle('open');b.classList.toggle('open',o);b.setAttribute('aria-expanded',o);});
+  m.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){m.classList.remove('open');b.classList.remove('open');b.setAttribute('aria-expanded','false');});});
+})();
+</script>
+</body></html>

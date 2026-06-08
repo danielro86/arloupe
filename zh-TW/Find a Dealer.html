@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-TW"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>尋找經銷商 — arLoupe · Bewelltech</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&amp;family=Hanken+Grotesk:wght@400;500;600;700;800&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12160F; --ink2:#1b2117; --pine:#2A4A33; --lime:#6FA821; --lime-br:#8FCB3C;
+    --grey:#868686; --paper:#F7F8F3; --mist:#E4E6DE; --line:#dfe1da; --muted:#5e6258; --paper-muted:#6b6f64;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--paper);color:var(--ink);font-family:"Hanken Grotesk","Noto Sans TC",system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .disp{font-family:"Familjen Grotesk","Noto Serif TC",serif;}
+  .mono{font-family:"Space Mono","Noto Sans TC",monospace;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 40px;}
+  .eyebrow{font-family:"Space Mono","Noto Sans TC",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;}
+  a{color:inherit;text-decoration:none;}
+
+  nav.bar{position:sticky;top:0;z-index:40;background:rgba(18,22,15,.9);backdrop-filter:blur(12px);border-bottom:1px solid #262c20;}
+  nav.bar .inner{max-width:1180px;margin:0 auto;padding:14px 40px;display:flex;align-items:center;justify-content:space-between;gap:24px;}
+  nav.bar .logo{height:26px;display:block;}
+  nav.bar .links{display:flex;gap:26px;font-size:14px;font-weight:500;color:#c3c7bc;white-space:nowrap;}
+  nav.bar .links a:hover{color:var(--lime-br);}
+  nav.bar .links a.active{color:var(--lime-br);}
+  nav.bar .demo{font-size:13px;font-weight:700;color:#10210a;background:var(--lime);padding:10px 18px;border-radius:999px;white-space:nowrap;}
+  nav.bar .demo:hover{background:var(--lime-br);}
+  @media(max-width:780px){nav.bar .links{display:none;}}
+
+  /* HERO — world map */
+  .hero{position:relative;overflow:hidden;background:#0a0d07;color:var(--paper);padding:124px 0 92px;min-height:60vh;display:flex;align-items:center;}
+  .hero .map{position:absolute;inset:0;background:url("../assets/world-map-real.png") center/cover no-repeat;opacity:.95;}
+  .hero .map-veil{position:absolute;inset:0;background:linear-gradient(95deg, rgba(9,12,7,.94) 0%, rgba(9,12,7,.72) 32%, rgba(9,12,7,.28) 60%, rgba(9,12,7,.55) 100%), radial-gradient(900px 520px at 84% 0%, rgba(111,168,33,.18), transparent 60%);}
+  .hero .cine-scan{position:absolute;left:0;right:0;top:-180px;height:170px;pointer-events:none;background:linear-gradient(to bottom, transparent, rgba(143,203,60,.05) 42%, rgba(143,203,60,.13) 50%, rgba(143,203,60,.05) 58%, transparent);animation:scansweep 7s cubic-bezier(.7,0,.3,1) infinite;}
+  .hud{position:absolute;z-index:4;font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#bcd39a;opacity:.9;}
+  .hud.tr{top:96px;right:40px;}
+  .hud.bl{bottom:34px;left:40px;display:flex;align-items:center;gap:8px;color:#9fb585;}
+  .hud .leg{width:9px;height:9px;border-radius:50%;display:inline-block;}
+  .hud .leg.hq{background:#fff;box-shadow:0 0 8px rgba(255,255,255,.6);}
+  .hud .leg.dl{background:#c7f476;box-shadow:0 0 8px rgba(143,203,60,.7);margin-left:14px;}
+  @media(max-width:980px){.hud.bl{display:none;}.hud.tr{right:20px;}}
+  .hero .inner{position:relative;z-index:5;width:100%;}
+  .hero h1{text-shadow:0 2px 40px rgba(0,0,0,.55);}
+  @keyframes scansweep{0%{top:-180px;}62%,100%{top:100%;}}
+  @media(prefers-reduced-motion:reduce){.hero .cine-scan{animation:none!important;}}
+  .hero .eyebrow{color:var(--lime-br);}
+  .hero h1{font-family:"Familjen Grotesk","Noto Serif TC",serif;font-weight:600;font-size:clamp(36px,5.6vw,68px);line-height:1.0;letter-spacing:-.025em;margin:20px 0 20px;max-width:15ch;}
+  .hero h1 em{font-style:normal;color:var(--lime-br);}
+  .hero p.sub{font-size:clamp(17px,1.8vw,20px);color:#c4c8bd;max-width:600px;}
+
+  /* search + filters */
+  .toolbar{background:var(--paper);position:sticky;top:69px;z-index:30;border-bottom:1px solid var(--line);}
+  .toolbar .inner{padding:18px 0 16px;display:flex;flex-direction:column;gap:14px;}
+  .searchbox{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:0 16px;max-width:480px;height:50px;}
+  .searchbox:focus-within{border-color:var(--lime);box-shadow:0 0 0 3px rgba(111,168,33,.12);}
+  .searchbox svg{flex:none;}
+  .searchbox input{border:none;outline:none;font-family:"Hanken Grotesk","Noto Sans TC",sans-serif;font-size:16px;width:100%;background:transparent;color:var(--ink);}
+  .filterrow{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between;}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;}
+  .chips button{font-family:"Hanken Grotesk","Noto Sans TC",sans-serif;font-size:13.5px;font-weight:600;border:1px solid var(--line);background:#fff;color:var(--ink);padding:9px 16px;border-radius:999px;cursor:pointer;transition:.15s;white-space:nowrap;}
+  .chips button:hover{border-color:var(--ink);}
+  .chips button.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .count{font-family:"Space Mono","Noto Sans TC",monospace;font-size:12.5px;color:var(--muted);letter-spacing:.04em;white-space:nowrap;}
+  .count b{color:var(--lime);}
+
+  /* dealer grid */
+  .results{padding:38px 0 30px;}
+  .region-group{margin-bottom:38px;}
+  .region-group h2{font-family:"Familjen Grotesk","Noto Serif TC",serif;font-size:15px;font-weight:600;letter-spacing:.02em;display:flex;align-items:center;gap:12px;color:var(--paper-muted);margin-bottom:18px;text-transform:uppercase;}
+  .region-group h2::after{content:"";flex:1;height:1px;background:var(--line);}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  @media(max-width:980px){.grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:640px){.grid{grid-template-columns:1fr;}}
+  .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;display:flex;flex-direction:column;transition:.18s;}
+  .card:hover{border-color:var(--grey);box-shadow:0 16px 34px -26px rgba(0,0,0,.4);transform:translateY(-2px);}
+  .card .top{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+  .ccode{width:44px;height:44px;border-radius:11px;background:var(--ink);color:var(--lime-br);font-family:"Space Mono","Noto Sans TC",monospace;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;letter-spacing:.02em;flex:none;}
+  .card .country{font-family:"Space Mono","Noto Sans TC",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--paper-muted);}
+  .card h3{font-family:"Familjen Grotesk","Noto Serif TC",serif;font-size:18.5px;font-weight:600;line-height:1.15;margin-top:3px;letter-spacing:-.01em;}
+  .card .contact-name{font-size:14px;color:var(--muted);margin-bottom:14px;}
+  .card .rows{display:flex;flex-direction:column;gap:9px;margin-top:auto;}
+  .card .rows a, .card .rows .addr{display:flex;align-items:flex-start;gap:9px;font-size:13.5px;color:#3c4037;}
+  .card .rows a:hover{color:var(--lime);}
+  .card .rows .ic{flex:none;width:15px;color:var(--grey);margin-top:2px;}
+  .card .web{margin-top:14px;font-size:13px;font-weight:700;color:var(--lime);display:inline-flex;align-items:center;gap:6px;}
+
+  /* HQ card */
+  .card.hq{background:var(--ink);border-color:var(--ink);color:#eef0ea;}
+  .card.hq .ccode{background:var(--lime);color:#10210a;}
+  .card.hq .country{color:var(--lime-br);}
+  .card.hq h3{color:#fff;}
+  .card.hq .contact-name{color:#aeb3a6;}
+  .card.hq .rows a,.card.hq .rows .addr{color:#cdd2c6;}
+  .card.hq .rows .ic{color:#6c7264;}
+  .card.hq .badge-hq{font-family:"Space Mono","Noto Sans TC",monospace;font-size:10px;letter-spacing:.14em;background:var(--pine);color:#cfe6c4;padding:4px 9px;border-radius:6px;margin-left:auto;align-self:flex-start;}
+
+  .noresult{text-align:center;padding:60px 0;color:var(--muted);display:none;}
+  .noresult.show{display:block;}
+  .noresult .disp{font-size:22px;color:var(--ink);margin-bottom:8px;}
+
+  /* become a dealer CTA */
+  .joincta{background:var(--pine);color:#eef0ea;border-radius:20px;padding:44px;margin:20px 0 64px;display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap;}
+  .joincta .eyebrow{color:var(--lime-br);}
+  .joincta h2{font-family:"Familjen Grotesk","Noto Serif TC",serif;font-size:clamp(24px,3vw,34px);font-weight:600;letter-spacing:-.02em;margin:10px 0 8px;max-width:18ch;}
+  .joincta p{color:#c5cdbb;font-size:16px;max-width:46ch;}
+  .joincta .btn{font-weight:700;font-size:15px;color:#10210a;background:var(--lime);padding:15px 26px;border-radius:999px;white-space:nowrap;display:inline-flex;align-items:center;gap:9px;}
+  .joincta .btn:hover{background:var(--lime-br);}
+
+  footer.site{background:var(--ink);color:#aeb3a6;padding:50px 0 38px;}
+  footer.site .top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;border-bottom:1px solid #262c20;padding-bottom:30px;}
+  footer.site .logo{height:30px;margin-bottom:14px;}
+  footer.site .top .col p{font-size:14px;max-width:34ch;}
+  footer.site .fnav{display:flex;gap:50px;flex-wrap:wrap;}
+  footer.site .fnav .grp h5{font-family:"Space Mono","Noto Sans TC",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#7c8174;margin-bottom:12px;}
+  footer.site .fnav .grp a{display:block;font-size:14.5px;color:#c3c7bc;margin-bottom:9px;}
+  footer.site .fnav .grp a:hover{color:var(--lime-br);}
+  footer.site .legal{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:24px;font-size:13px;color:#71766a;}
+
+.langsw{display:flex;gap:2px;align-items:center;}
+.langsw a{font-family:"Space Mono","Noto Sans TC",monospace;font-size:12px;color:#9aa090;padding:5px 8px;border-radius:7px;text-decoration:none;line-height:1;}
+.langsw a:hover{color:#8FCB3C;}
+.langsw a.on{color:#10210a;background:#6FA821;font-weight:700;}
+
+  /* ===== CJK headline tuning · Serif B2 (Noto Serif TC 400) ===== */
+  .disp,.hero h1,.phero h1,.chero h1,.sec-title,.shiftcard h3,.pillar h3,.pillar .pn,.model h4,.feat h4,.stat .num,.cta h2,.mission .big,.problem h2,.problem .quote,.solution h2,.story h2,.fact .v,.vision h2,.rmap h3,.pedigree h2,.joincta h2,.card h3,.mcard h3,.step .sn,.step h4,.spec-row .v,.fittool .q,.fittool .wdval,.size .sz,.qa .q h4,.ctable .h,.form h2,.thanks h3,.infocard.dark h3,.infocard.pine h3,.infocard.light h3{font-weight:400;}
+  .hero h1,.phero h1,.chero h1{line-height:1.18;}
+  .sec-title,.solution h2,.problem h2,.story h2,.vision h2,.pedigree h2,.cta h2,.joincta h2,.mission .big,.mcard h3,.shiftcard h3,.pillar h3{line-height:1.24;}
+  .region-group h2,.badge{font-family:"Hanken Grotesk","Noto Sans TC",sans-serif;font-weight:600;}
+
+  /* ===== RESPONSIVE / MOBILE NAV ===== */
+  .menu-btn{display:none;background:none;border:0;cursor:pointer;padding:8px;margin-right:-8px;}
+  .menu-btn span{display:block;width:24px;height:2px;background:#d4d8cd;border-radius:2px;transition:.25s;}
+  .menu-btn span+span{margin-top:5px;}
+  .menu-btn.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .menu-btn.open span:nth-child(2){opacity:0;}
+  .menu-btn.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  .mobile-menu{display:none;flex-direction:column;padding:6px 40px 16px;border-top:1px solid #262c20;background:rgba(18,22,15,.96);}
+  .mobile-menu.open{display:flex;}
+  .mobile-menu .mlink{color:#cfd3c8;font-size:17px;font-weight:500;padding:14px 2px;border-bottom:1px solid #20261a;}
+  .mobile-menu .mlink.active{color:var(--lime-br);}
+  .mobile-menu .mm-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:16px;}
+  .mobile-menu .mm-foot .demo{font-size:14px;font-weight:700;color:#10210a;background:var(--lime);padding:11px 20px;border-radius:999px;white-space:nowrap;}
+  @media(min-width:821px){.mobile-menu{display:none!important;}}
+  @media(max-width:820px){
+    nav.bar .links{display:none;}
+    nav.bar .inner>.langsw{display:none;}
+    nav.bar .inner>.demo{display:none;}
+    .menu-btn{display:block;}
+    .hero{min-height:auto;padding:118px 0 76px;}
+  }
+  @media(max-width:560px){
+    .wrap{padding:0 22px;}
+    nav.bar .inner{padding:13px 22px;}
+    .mobile-menu{padding-left:22px;padding-right:22px;}
+    section.pad{padding:56px 0;}
+    .mission,.problem,.solution,.story,.vision,.pedigree,.cbody{padding:54px 0;}
+    .stats{padding:46px 0;}
+    .hero .cta-row a,.phero .cta-row a,.cta .cta-row a{flex:1 1 100%;display:inline-flex;justify-content:center;}
+  }
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&amp;family=Noto+Serif+TC:wght@300;400;500;600&amp;display=swap"></head>
+<body>
+
+<nav class="bar">
+  <div class="inner">
+    <a href="About Us.html"><img class="logo" src="../assets/arloupe-logo.png" alt="arLoupe"></a>
+    <div class="links">
+      <a href="index.html">首頁</a>
+      <a href="Products.html">產品</a>
+      <a href="About Us.html">關於我們</a>
+      <a href="Find a Dealer.html" class="active">尋找經銷商</a>
+      <a href="Contact.html">聯絡我們</a>
+    </div>
+    <div class="langsw"><a href="../Find a Dealer.html">EN</a><a href="../zh-CN/Find a Dealer.html">简</a><a href="Find a Dealer.html" class="on">繁</a></div><a href="Contact.html" class="demo">預約展示</a>
+    <button class="menu-btn" id="menuBtn" aria-label="選單" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a class="mlink" href="index.html">首頁</a>
+    <a class="mlink" href="Products.html">產品</a>
+    <a class="mlink" href="About Us.html">關於我們</a>
+    <a class="mlink active" href="Find a Dealer.html">尋找經銷商</a>
+    <a class="mlink" href="Contact.html">聯絡我們</a>
+    <div class="mm-foot">
+      <div class="langsw"><a href="../Find a Dealer.html">EN</a><a href="../zh-CN/Find a Dealer.html">简</a><a href="Find a Dealer.html" class="on">繁</a></div>
+      <a href="Contact.html" class="demo">預約展示</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="map"></div>
+  <div class="map-veil"></div>
+  <div class="cine-scan"></div>
+  <span class="hud tr">15+ 國家 · 18 家經銷商</span>
+  <span class="hud bl"><span class="leg hq"></span> 全球總部 <span class="leg dl"></span> 授權經銷商</span>
+  <div class="wrap inner">
+    <div class="eyebrow">授權經銷網絡</div>
+    <h1>尋找您的當地 <em>arLoupe</em> 經銷商。</h1>
+    <p class="sub">arLoupe 僅透過我們的授權經銷網絡銷售——您將獲得專業的現場適配、親手試戴，以及母語在地支援。在下方找到您的經銷商。</p>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="wrap inner">
+    <div class="searchbox">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#868686" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
+      <input id="search" type="text" placeholder="依國家或公司搜尋…" autocomplete="off">
+    </div>
+    <div class="filterrow">
+      <div class="chips" id="chips">
+        <button data-r="all" class="active">所有地區</button>
+        <button data-r="apac">亞太地區</button>
+        <button data-r="emea">歐洲及獨立國協</button>
+        <button data-r="me">中東</button>
+        <button data-r="amer">美洲</button>
+      </div>
+      <div class="count" id="count"></div>
+    </div>
+  </div>
+</div>
+
+<main class="results">
+  <div class="wrap">
+    <div id="groups"></div>
+    <div class="noresult" id="noresult">
+      <div class="disp">沒有符合搜尋條件的經銷商。</div>
+      <p>試試其他國家，或聯絡我們的全球總部——我們將為您接洽最近的經銷商。</p>
+    </div>
+
+    <div class="joincta">
+      <div>
+        <div class="eyebrow">沒找到您的國家？</div>
+        <h2 class="disp">我們正在拓展——並尋找合作夥伴。</h2>
+        <p>若您所在地區尚無經銷商，歡迎聯絡我們位於台灣的全球總部。我們將直接為您服務，或與您洽談成為 arLoupe 授權代理商。</p>
+      </div>
+      <a href="mailto:info@bewelltechs.com" class="btn">聯絡總部 →</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="top">
+      <div class="col">
+        <img class="logo" src="../assets/arloupe-logo.png" alt="arLoupe">
+        <p>Bewelltech Inc. — 將外科視野數位化，讓臨床醫師看得更清、全程在場、即時教學。</p>
+      </div>
+      <div class="fnav">
+        <div class="grp"><h5>產品</h5><a href="Products.html">arLoupe</a><a href="Products.html#features">功能特色</a><a href="Contact.html">預約展示</a></div>
+        <div class="grp"><h5>公司</h5><a href="About Us.html">關於我們</a><a href="Find a Dealer.html">尋找經銷商</a><a href="Contact.html">聯絡我們</a></div>
+        <div class="grp"><h5>總部</h5><a href="Contact.html">台灣台北</a><a href="mailto:info@bewelltechs.com">info@bewelltechs.com</a><a href="https://bewelltechs.com">bewelltechs.com</a></div>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© 2026 Bewelltech Inc. 版權所有。</span>
+      <span class="mono">arLoupe® · 數位外科視野</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const REGIONS = {apac:"亞太地區", emea:"歐洲及獨立國協", me:"中東", amer:"美洲"};
+const DEALERS = [
+  {region:"apac", country:"台灣", code:"TW", hq:true, company:"Bewelltech Inc.", contact:"Lewis Lu", email:"lewis.lu@bewelltechs.com", web:"https://www.bewelltechs.com", webLabel:"bewelltechs.com"},
+  {region:"apac", country:"台灣", code:"TW", company:"Qin Chuang Precision Technology", contact:"iEZ Sales", email:"assistant@qinchuang.com.tw", phone:"+886 8 762 0160", web:"https://www.iezdental.com", webLabel:"iezdental.com"},
+  {region:"apac", country:"中國", code:"CN", company:"Dejianfu Co. Ltd.", contact:"Mr. Ethan Oh", email:"mega@bewelltech.com", phone:"025-83651563", web:"https://www.bewelletech.com", webLabel:"bewelletech.com"},
+  {region:"apac", country:"日本", code:"JP", company:"Micro Tech. Corp.", email:"info@micro-t.jp", phone:"+81 3 5827 1380", web:"http://www.micro-t.jp/company.html", webLabel:"micro-t.jp"},
+  {region:"apac", country:"印度", code:"IN", company:"Oral Technologies Pvt Ltd", contact:"Mr. Areefh", email:"info@oraltechnolohies.in", phone:"040-48502674", web:"https://www.oraltechnologies.in", webLabel:"oraltechnologies.in"},
+  {region:"apac", country:"印度", code:"IN", company:"Maarc Dental LLP", contact:"Vijay Doshi", email:"sales@shivaproducts.net", phone:"+91 99678 06543", address:"214 Bluebell Industrial Estate, Vasai East, Palghar 401208", web:"https://www.maarcdental.com", webLabel:"maarcdental.com"},
+  {region:"apac", country:"印尼", code:"ID", company:"PT. Global Dent", contact:"Yansen", phone:"+62 813 1736 2217", web:"https://www.instagram.com/globaldent.indonesia", webLabel:"@globaldent.indonesia"},
+  {region:"apac", country:"菲律賓", code:"PH", company:"KLA Dental and Medical Trading", contact:"Dr. Marcel Garcia", email:"kladentaltrading@gmail.com", phone:"+63 917 710 3578"},
+  {region:"apac", country:"泰國", code:"TH", company:"Icom Tech Co. Ltd.", contact:"Mr. Ryan Hsiao", email:"ryan@icom.co.th", phone:"0-2203-7500", web:"https://arloupe.icom.co.th", webLabel:"arloupe.icom.co.th"},
+
+  {region:"emea", country:"法國", code:"FR", company:"SAS Diffusion Laser & Technology", contact:"Mr. Noir Frédéric", email:"contact@nf-diffusion.com", phone:"+33 6 11 41 70 10", web:"https://www.diffusion-laser-technology.com", webLabel:"diffusion-laser-technology.com"},
+  {region:"emea", country:"俄羅斯", code:"RU", company:"DutyFreeStom", contact:"Gennadiy Podvisotsky", email:"Pgv88msk@gmail.com", phone:"+7 905 549 9955", web:"https://dutyfreestom.ru", webLabel:"dutyfreestom.ru"},
+  {region:"emea", country:"亞美尼亞", code:"AM", company:"Stom Line, LLC", contact:"Ernest", email:"stomline@yahoo.com", phone:"+374 43 320032", address:"St. Koryuni 5/3, Yerevan, Armenia"},
+
+  {region:"me", country:"伊拉克", code:"IQ", company:"Asnana Digital T Ltd", contact:"Asnana Sales", email:"asnana.iq@gmail.com", phone:"+964 770 022 1157", web:"https://www.instagram.com/asnana.iq", webLabel:"@asnana.iq"},
+  {region:"me", country:"伊拉克", code:"IQ", company:"Zuhair-Group", contact:"Dr. Ahmed", email:"info@zuhair-group.com", phone:"+964 774 466 5566", web:"https://zuhair-group.com", webLabel:"zuhair-group.com"},
+  {region:"me", country:"以色列", code:"IL", company:"Caesarea Medical Center Ltd", contact:"Yogev Cohen", email:"yogev@dmc.co.il", phone:"+972 52 454 1330", web:"https://www.dmc.co.il", webLabel:"dmc.co.il"},
+  {region:"me", country:"約旦", code:"JO", company:"Matest Dental", contact:"Mr. Amjad Alhaj", email:"amjad@matestdental.com", address:"Al Razi Street, Jabal Al Hussein, Amman, Jordan", web:"https://www.matestdental.com", webLabel:"matestdental.com"},
+
+  {region:"amer", country:"加拿大", code:"CA", company:"Dental Solutions", contact:"Dr. Rami Mousattat", email:"mmousattat@thedentalsolutions.ca", phone:"+1 438 503 7621", web:"https://www.thedentalsolutions.ca", webLabel:"thedentalsolutions.ca"},
+  {region:"amer", country:"巴西", code:"BR", company:"MK Produtos para Saúde LTDA", contact:"Michel Klymus", email:"Klymus@mklife.com.br", phone:"+55 51 3362 7828", address:"Rua Dr Deoclecio Pereira 476, Porto Alegre RS 91040-470", web:"https://www.mklife.com.br", webLabel:"mklife.com.br"},
+];
+
+const ICON = {
+  mail:'<svg class="ic" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>',
+  phone:'<svg class="ic" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8 9.6a16 16 0 0 0 6 6l1.1-1.1a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z"/></svg>',
+  pin:'<svg class="ic" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>',
+};
+
+let activeRegion = "all", query = "";
+const groupsEl = document.getElementById('groups');
+const countEl = document.getElementById('count');
+const noResEl = document.getElementById('noresult');
+
+function cardHTML(d){
+  const rows = [];
+  if(d.email) rows.push(`<a href="mailto:${d.email}">${ICON.mail}<span>${d.email}</span></a>`);
+  if(d.phone) rows.push(`<a href="tel:${d.phone.replace(/[^+\d]/g,'')}">${ICON.phone}<span>${d.phone}</span></a>`);
+  if(d.address) rows.push(`<div class="addr">${ICON.pin}<span>${d.address}</span></div>`);
+  const web = d.web ? `<a class="web" href="${d.web}" target="_blank" rel="noopener">${d.webLabel} ↗</a>` : '';
+  const hqBadge = d.hq ? `<span class="badge-hq">全球總部</span>` : '';
+  return `<div class="card ${d.hq?'hq':''}">
+    <div class="top">
+      <div class="ccode">${d.code}</div>
+      <div>
+        <div class="country">${d.country}</div>
+        <h3 class="disp">${d.company}</h3>
+      </div>
+      ${hqBadge}
+    </div>
+    ${d.contact?`<div class="contact-name">聯絡人：${d.contact}</div>`:'<div class="contact-name"></div>'}
+    <div class="rows">${rows.join('')}</div>
+    ${web}
+  </div>`;
+}
+
+function render(){
+  const q = query.trim().toLowerCase();
+  const matches = DEALERS.filter(d=>{
+    const regionOk = activeRegion==="all" || d.region===activeRegion;
+    const qOk = !q || d.country.toLowerCase().includes(q) || d.company.toLowerCase().includes(q) || (d.contact||'').toLowerCase().includes(q);
+    return regionOk && qOk;
+  });
+  // group by region in defined order
+  const order = ["apac","emea","me","amer"];
+  groupsEl.innerHTML = order.map(rk=>{
+    const items = matches.filter(d=>d.region===rk);
+    if(!items.length) return '';
+    return `<div class="region-group"><h2>${REGIONS[rk]}</h2><div class="grid">${items.map(cardHTML).join('')}</div></div>`;
+  }).join('');
+  const countries = new Set(matches.map(d=>d.country)).size;
+  countEl.innerHTML = `顯示 <b>${matches.length}</b> 家經銷商 · 覆蓋 ${countries} 個國家/地區`;
+  noResEl.classList.toggle('show', matches.length===0);
+}
+
+document.getElementById('chips').addEventListener('click', e=>{
+  const b = e.target.closest('button'); if(!b) return;
+  document.querySelectorAll('#chips button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active'); activeRegion = b.dataset.r; render();
+});
+document.getElementById('search').addEventListener('input', e=>{ query = e.target.value; render(); });
+render();
+</script>
+
+
+<script>
+(function(){
+  var b=document.getElementById('menuBtn'),m=document.getElementById('mobileMenu');
+  if(!b||!m) return;
+  b.addEventListener('click',function(){var o=m.classList.toggle('open');b.classList.toggle('open',o);b.setAttribute('aria-expanded',o);});
+  m.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){m.classList.remove('open');b.classList.remove('open');b.setAttribute('aria-expanded','false');});});
+})();
+</script>
+</body></html>

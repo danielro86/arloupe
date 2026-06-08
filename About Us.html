@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Bewelltech · arLoupe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&amp;family=Hanken+Grotesk:wght@400;500;600;700;800&amp;family=Space+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#12160F; --ink2:#1b2117; --pine:#2A4A33; --lime:#6FA821; --lime-br:#8FCB3C;
+    --grey:#868686; --paper:#F7F8F3; --mist:#E4E6DE; --line:#dfe1da; --muted:#5e6258;
+    --paper-muted:#6b6f64;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--paper);color:var(--ink);font-family:"Hanken Grotesk",system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  .disp{font-family:"Familjen Grotesk",sans-serif;}
+  .mono{font-family:"Space Mono",monospace;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 40px;}
+  .eyebrow{font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.24em;text-transform:uppercase;}
+  a{color:inherit;text-decoration:none;}
+
+  /* reveal */
+  .rv{opacity:1;transform:none;}
+  body.anim .rv{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1);}
+  body.anim .rv.in{opacity:1;transform:none;}
+  @media(prefers-reduced-motion:reduce){body.anim .rv{opacity:1!important;transform:none!important;}}
+
+  /* NAV */
+  nav.bar{position:sticky;top:0;z-index:40;background:rgba(18,22,15,.86);backdrop-filter:blur(12px);border-bottom:1px solid #262c20;}
+  nav.bar .inner{max-width:1180px;margin:0 auto;padding:14px 40px;display:flex;align-items:center;justify-content:space-between;}
+  nav.bar .logo{height:26px;display:block;}
+  nav.bar .links{display:flex;gap:26px;font-size:14px;font-weight:500;color:#c3c7bc;white-space:nowrap;}
+  nav.bar .links a:hover{color:var(--lime-br);}
+  nav.bar .links a.active{color:var(--lime-br);}
+  nav.bar .demo{font-size:13px;font-weight:700;color:#10210a;background:var(--lime);padding:10px 18px;border-radius:999px;white-space:nowrap;}
+  nav.bar .inner{gap:24px;}
+  nav.bar .demo:hover{background:var(--lime-br);}
+  @media(max-width:780px){nav.bar .links{display:none;}}
+
+  /* HERO — cinematic */
+  .hero{position:relative;overflow:hidden;background:#0b0e08;color:var(--paper);min-height:90vh;display:flex;align-items:center;padding:150px 0 110px;}
+  .hero .hero-visual{display:none;}
+  .cine-bg{position:absolute;inset:0;background:url("https://images.unsplash.com/photo-1551601651-2a8555f1a136?auto=format&fit=crop&q=80&w=1900") center 28%/cover;filter:grayscale(.25) contrast(1.06) brightness(.46) saturate(.85);transform:scale(1.1);animation:kenburns 28s ease-in-out infinite alternate;will-change:transform;}
+  .cine-grid{position:absolute;left:-30%;right:-30%;bottom:-8%;height:72%;background-image:linear-gradient(rgba(143,203,60,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(143,203,60,.10) 1px,transparent 1px);background-size:48px 48px;transform:perspective(420px) rotateX(64deg);transform-origin:50% 100%;-webkit-mask-image:linear-gradient(to top,#000,transparent 82%);mask-image:linear-gradient(to top,#000,transparent 82%);animation:griddrift 7s linear infinite;opacity:.5;}
+  .cine-veil{position:absolute;inset:0;background:linear-gradient(95deg, rgba(8,11,6,.95) 0%, rgba(8,11,6,.8) 36%, rgba(8,11,6,.42) 66%, rgba(20,34,12,.5) 100%), radial-gradient(1100px 640px at 82% -5%, rgba(111,168,33,.26), transparent 62%);}
+  .cine-scan{position:absolute;left:0;right:0;top:-180px;height:170px;pointer-events:none;background:linear-gradient(to bottom, transparent, rgba(143,203,60,.06) 42%, rgba(143,203,60,.15) 50%, rgba(143,203,60,.06) 58%, transparent);animation:scansweep 6.5s cubic-bezier(.7,0,.3,1) infinite;}
+  .cine-noise{position:absolute;inset:0;opacity:.045;background-image:radial-gradient(rgba(255,255,255,.65) 1px, transparent 1px);background-size:3px 3px;mix-blend-mode:overlay;pointer-events:none;}
+  .hud{position:absolute;z-index:4;font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#c4dca0;opacity:.9;}
+  .hud .rec{display:inline-flex;align-items:center;gap:7px;}
+  .hud .rec::before{content:"";width:8px;height:8px;border-radius:50%;background:#ff5a4d;box-shadow:0 0 10px #ff5a4d;animation:blink 1.4s steps(1) infinite;}
+  .hud.tr{top:98px;right:40px;}
+  .hud.bl{bottom:40px;left:40px;color:#9fb585;}
+  .hud.br{bottom:40px;right:40px;text-align:right;color:#9fb585;}
+  .reticle{position:absolute;z-index:4;top:50%;right:7%;width:230px;height:230px;transform:translateY(-50%);animation:reticlepulse 3.4s ease-in-out infinite;}
+  .reticle span{position:absolute;width:30px;height:30px;border:2px solid rgba(143,203,60,.85);}
+  .reticle .a{top:0;left:0;border-right:none;border-bottom:none;}
+  .reticle .b{top:0;right:0;border-left:none;border-bottom:none;}
+  .reticle .c{bottom:0;left:0;border-right:none;border-top:none;}
+  .reticle .d{bottom:0;right:0;border-left:none;border-top:none;}
+  .reticle .cross{position:absolute;top:50%;left:50%;width:20px;height:20px;transform:translate(-50%,-50%);border:none;}
+  .reticle .cross::before,.reticle .cross::after{content:"";position:absolute;background:rgba(143,203,60,.9);}
+  .reticle .cross::before{left:50%;top:0;width:1.5px;height:100%;transform:translateX(-50%);}
+  .reticle .cross::after{top:50%;left:0;height:1.5px;width:100%;transform:translateY(-50%);}
+  @media(max-width:980px){.reticle{display:none;}.hud.br,.hud.bl{display:none;}.hud.tr{right:20px;}}
+  .hero .inner{position:relative;z-index:6;width:100%;}
+  .hero .eyebrow{color:var(--lime-br);}
+  .hero h1{font-family:"Familjen Grotesk",sans-serif;font-weight:600;font-size:clamp(42px,7vw,90px);line-height:1.03;letter-spacing:-.015em;margin:20px 0 26px;max-width:17ch;text-shadow:0 2px 40px rgba(0,0,0,.5);}
+  .hero h1 em{font-style:normal;color:var(--lime-br);}
+  .hero p.sub{font-size:clamp(18px,2vw,22px);color:#d2d6ca;max-width:600px;line-height:1.5;}
+  .hero .cta-row{display:flex;gap:14px;align-items:center;margin-top:34px;flex-wrap:wrap;}
+  @keyframes kenburns{0%{transform:scale(1.1) translate(0,0);}100%{transform:scale(1.2) translate(-2.5%,-3%);}}
+  @keyframes griddrift{0%{background-position:0 0;}100%{background-position:0 48px;}}
+  @keyframes scansweep{0%{top:-180px;}62%,100%{top:100%;}}
+  @keyframes blink{0%,50%{opacity:1;}51%,100%{opacity:.2;}}
+  @keyframes reticlepulse{0%,100%{opacity:.5;transform:translateY(-50%) scale(.98);}50%{opacity:.95;transform:translateY(-50%) scale(1.02);}}
+  @media(prefers-reduced-motion:reduce){.cine-bg,.cine-scan,.cine-grid,.reticle,.hud .rec::before{animation:none!important;}}
+  .btn-lime{font-weight:700;font-size:15px;color:#10210a;background:var(--lime);padding:14px 26px;border-radius:999px;display:inline-flex;align-items:center;gap:9px;white-space:nowrap;}
+  .btn-lime:hover{background:var(--lime-br);}
+  .btn-ghost{font-weight:600;font-size:15px;color:#e6e9df;border:1px solid #3a4234;padding:14px 26px;border-radius:999px;white-space:nowrap;}
+  .btn-ghost:hover{border-color:var(--lime);}
+
+  /* placeholder image */
+  .ph{position:relative;border-radius:16px;overflow:hidden;background:
+    repeating-linear-gradient(135deg,#1e251a 0 12px,#222a1d 12px 24px);
+    border:1px solid #2c3425;display:flex;align-items:flex-end;}
+  .ph.light{background:repeating-linear-gradient(135deg,#eceee6 0 12px,#e6e9df 12px 24px);border-color:var(--mist);}
+  .ph .cap{margin:14px;font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.06em;color:#9aa48c;background:rgba(18,22,15,.6);padding:6px 10px;border-radius:7px;}
+  .ph.light .cap{color:#7a8070;background:rgba(255,255,255,.7);}
+  .ph .tick{position:absolute;top:13px;left:13px;width:8px;height:8px;border-radius:50%;background:var(--lime);z-index:2;}
+  .ph > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;z-index:0;background:#eceee6;}
+  .ph .cap{position:relative;z-index:1;}
+  .ph:has(img:not(.brk)) .cap{display:none;}
+  .ph:has(img:not(.brk)) .tick{display:none;}
+  .ph.brk > img{display:none;}
+
+  .hero-visual{margin-top:54px;}
+  .hero-visual .ph{height:340px;}
+
+  /* MISSION statement */
+  .mission{background:var(--paper);padding:92px 0;}
+  .mission .eyebrow{color:var(--lime);}
+  .mission .big{font-family:"Familjen Grotesk",sans-serif;font-weight:500;font-size:clamp(26px,3.5vw,46px);line-height:1.18;letter-spacing:-.015em;margin-top:24px;max-width:20ch;}
+  .mission .big b{font-weight:600;}
+  .mission .big .hl{color:var(--lime);font-weight:600;}
+
+  /* PROBLEM */
+  .problem{background:var(--ink);color:var(--paper);padding:92px 0;}
+  .problem .grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+  @media(max-width:880px){.problem .grid{grid-template-columns:1fr;gap:40px;}}
+  .problem .eyebrow{color:var(--lime-br);}
+  .problem h2{font-family:"Familjen Grotesk",sans-serif;font-size:clamp(28px,3.6vw,42px);font-weight:600;letter-spacing:-.02em;line-height:1.05;margin:18px 0 22px;}
+  .problem p{color:#bcc0b5;font-size:17px;margin-bottom:16px;}
+  .problem p .em{color:#fff;font-weight:600;}
+  .problem .quote{margin-top:26px;border-left:3px solid var(--lime);padding-left:20px;font-family:"Familjen Grotesk",sans-serif;font-size:20px;color:#e7eadf;font-weight:500;}
+  .problem .ph{height:420px;}
+
+  /* SOLUTION / pillars */
+  .solution{background:var(--paper);padding:92px 0;}
+  .solution .head{max-width:680px;margin-bottom:48px;}
+  .solution .eyebrow{color:var(--lime);}
+  .solution h2{font-family:"Familjen Grotesk",sans-serif;font-size:clamp(28px,3.6vw,44px);font-weight:600;letter-spacing:-.02em;line-height:1.04;margin:18px 0 16px;}
+  .solution h2 em{font-style:normal;color:var(--lime);}
+  .solution .lede{font-size:18px;color:var(--paper-muted);}
+  .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  @media(max-width:880px){.pillars{grid-template-columns:1fr;}}
+  .pillar{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px;display:flex;flex-direction:column;}
+  .pillar .pk{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--lime);}
+  .pillar .pn{font-family:"Familjen Grotesk",sans-serif;font-size:34px;font-weight:600;color:var(--mist);line-height:1;margin:4px 0 16px;}
+  .pillar h3{font-family:"Familjen Grotesk",sans-serif;font-size:21px;font-weight:600;margin-bottom:10px;letter-spacing:-.01em;}
+  .pillar p{font-size:15px;color:#52564c;}
+
+  /* STATS band */
+  .stats{background:var(--pine);color:#eef0ea;padding:64px 0;}
+  .stats .row{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;}
+  @media(max-width:880px){.stats .row{grid-template-columns:repeat(2,1fr);gap:34px 20px;}}
+  .stat .num{font-family:"Familjen Grotesk",sans-serif;font-size:clamp(40px,5vw,60px);font-weight:600;letter-spacing:-.03em;line-height:1;color:var(--lime-br);}
+  .stat .lab{font-size:14.5px;color:#cdd5c2;margin-top:10px;max-width:22ch;}
+
+  /* STORY / by the numbers */
+  .story{background:var(--paper);padding:92px 0;}
+  .story .grid{display:grid;grid-template-columns:1.05fr 1fr;gap:58px;align-items:center;}
+  @media(max-width:880px){.story .grid{grid-template-columns:1fr;gap:38px;}}
+  .story .eyebrow{color:var(--lime);}
+  .story h2{font-family:"Familjen Grotesk",sans-serif;font-size:clamp(26px,3.4vw,40px);font-weight:600;letter-spacing:-.02em;line-height:1.06;margin:18px 0 18px;}
+  .story p{font-size:17px;color:#4f534a;margin-bottom:16px;}
+  .story p b{color:var(--ink);}
+  .facts{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .fact{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;}
+  .fact .k{font-family:"Space Mono",monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper-muted);}
+  .fact .v{font-family:"Familjen Grotesk",sans-serif;font-size:30px;font-weight:600;letter-spacing:-.02em;margin-top:6px;}
+  .fact .v small{font-size:15px;color:var(--muted);font-weight:500;}
+
+  /* VISION / where we're going */
+  .vision{background:var(--ink);color:var(--paper);padding:92px 0;}
+  .vision .eyebrow{color:var(--lime-br);}
+  .vision h2{font-family:"Familjen Grotesk",sans-serif;font-size:clamp(28px,3.8vw,46px);font-weight:600;letter-spacing:-.02em;line-height:1.03;margin:18px 0 14px;max-width:18ch;}
+  .vision h2 em{font-style:normal;color:var(--lime-br);}
+  .vision .lede{font-size:18px;color:#bcc0b5;max-width:680px;margin-bottom:44px;}
+  .roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  @media(max-width:880px){.roadmap{grid-template-columns:1fr;}}
+  .rmap{border:1px solid #2c3425;border-radius:16px;padding:26px;background:linear-gradient(180deg,#1a2016,#161b12);}
+  .rmap .ph-num{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.14em;color:var(--lime-br);}
+  .rmap h3{font-family:"Familjen Grotesk",sans-serif;font-size:20px;font-weight:600;margin:10px 0 8px;}
+  .rmap p{font-size:14.5px;color:#aeb3a6;}
+  .vision .note{margin-top:24px;font-size:13.5px;color:#8b9082;font-family:"Space Mono",monospace;letter-spacing:.03em;}
+
+  /* TEAM pedigree (no individual bios) */
+  .pedigree{background:var(--paper);padding:84px 0;}
+  .pedigree .eyebrow{color:var(--lime);}
+  .pedigree h2{font-family:"Familjen Grotesk",sans-serif;font-size:clamp(26px,3.4vw,40px);font-weight:600;letter-spacing:-.02em;line-height:1.06;margin:18px 0 14px;max-width:20ch;}
+  .pedigree p.lede{font-size:18px;color:#4f534a;max-width:640px;margin-bottom:36px;}
+  .badges{display:flex;flex-wrap:wrap;gap:12px;}
+  .badge{background:#fff;border:1px solid var(--line);border-radius:999px;padding:12px 20px;font-family:"Familjen Grotesk",sans-serif;font-weight:600;font-size:16px;color:#3a3e35;display:flex;align-items:center;gap:10px;}
+  .badge .dot{width:7px;height:7px;border-radius:50%;background:var(--lime);}
+  .pedigree .disciplines{margin-top:30px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  @media(max-width:880px){.pedigree .disciplines{grid-template-columns:1fr 1fr;}}
+  .disc{border-top:2px solid var(--ink);padding-top:12px;}
+  .disc .dk{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--paper-muted);}
+  .disc p{font-size:14px;color:#4f534a;margin-top:6px;}
+
+  /* CTA */
+  .cta{background:var(--lime);color:#10210a;padding:80px 0;}
+  .cta h2{font-family:"Familjen Grotesk",sans-serif;font-size:clamp(30px,4.2vw,54px);font-weight:600;letter-spacing:-.025em;line-height:1.02;max-width:16ch;}
+  .cta p{font-size:18px;color:#1d3310;margin:18px 0 30px;max-width:48ch;}
+  .cta .btn-dark{font-weight:700;font-size:16px;color:#eef0ea;background:var(--ink);padding:16px 30px;border-radius:999px;display:inline-flex;align-items:center;gap:10px;}
+  .cta .btn-dark:hover{background:#000;}
+
+  /* FOOTER */
+  footer.site{background:var(--ink);color:#aeb3a6;padding:56px 0 40px;}
+  footer.site .top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;border-bottom:1px solid #262c20;padding-bottom:32px;}
+  footer.site .logo{height:30px;margin-bottom:16px;}
+  footer.site .top .col p{font-size:14px;max-width:34ch;}
+  footer.site .fnav{display:flex;gap:50px;flex-wrap:wrap;}
+  footer.site .fnav .grp h5{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#7c8174;margin-bottom:12px;}
+  footer.site .fnav .grp a{display:block;font-size:14.5px;color:#c3c7bc;margin-bottom:9px;}
+  footer.site .fnav .grp a:hover{color:var(--lime-br);}
+  footer.site .legal{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:26px;font-size:13px;color:#71766a;}
+
+.langsw{display:flex;gap:2px;align-items:center;}
+.langsw a{font-family:"Space Mono",monospace;font-size:12px;color:#9aa090;padding:5px 8px;border-radius:7px;text-decoration:none;line-height:1;}
+.langsw a:hover{color:#8FCB3C;}
+.langsw a.on{color:#10210a;background:#6FA821;font-weight:700;}
+
+  /* ===== RESPONSIVE / MOBILE NAV ===== */
+  .menu-btn{display:none;background:none;border:0;cursor:pointer;padding:8px;margin-right:-8px;}
+  .menu-btn span{display:block;width:24px;height:2px;background:#d4d8cd;border-radius:2px;transition:.25s;}
+  .menu-btn span+span{margin-top:5px;}
+  .menu-btn.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .menu-btn.open span:nth-child(2){opacity:0;}
+  .menu-btn.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+  .mobile-menu{display:none;flex-direction:column;padding:6px 0 16px;border-top:1px solid #262c20;}
+  .mobile-menu.open{display:flex;}
+  .mobile-menu .mlink{color:#cfd3c8;font-size:17px;font-weight:500;padding:14px 2px;border-bottom:1px solid #20261a;}
+  .mobile-menu .mlink.active{color:var(--lime-br);}
+  .mobile-menu .mm-foot{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:16px;}
+  .mobile-menu .mm-foot .demo{font-size:14px;font-weight:700;color:#10210a;background:var(--lime);padding:11px 20px;border-radius:999px;}
+  @media(min-width:821px){.mobile-menu{display:none!important;}}
+  @media(max-width:820px){
+    nav.bar .links{display:none;}
+    nav.bar .inner>.langsw{display:none;}
+    nav.bar .inner>.demo{display:none;}
+    .menu-btn{display:block;}
+    .hero{min-height:auto;padding:118px 0 76px;}
+  }
+  @media(max-width:560px){
+    .wrap{padding:0 22px;}
+    nav.bar .inner{padding:13px 22px;}
+    .hero{padding:104px 0 60px;}
+    .hero .cta-row a{flex:1 1 100%;display:inline-flex;justify-content:center;}
+    .mission,.problem,.solution,.story,.vision{padding:56px 0;}
+    .stats{padding:46px 0;}
+    .pedigree{padding:54px 0;}
+    .cta{padding:54px 0;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="bar">
+  <div class="inner">
+    <a href="index.html"><img class="logo" src="assets/arloupe-logo.png" alt="arLoupe"></a>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="Products.html">Products</a>
+      <a href="About Us.html" class="active">About</a>
+      <a href="Find a Dealer.html">Find a dealer</a>
+      <a href="Contact.html">Contact</a>
+    </div>
+    <div class="langsw"><a href="About Us.html" class="on">EN</a><a href="zh-CN/About Us.html">简</a><a href="zh-TW/About Us.html">繁</a></div><a href="Contact.html" class="demo">Book a demo</a>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a class="mlink" href="index.html">Home</a>
+    <a class="mlink" href="Products.html">Products</a>
+    <a class="mlink active" href="About Us.html">About</a>
+    <a class="mlink" href="Find a Dealer.html">Find a dealer</a>
+    <a class="mlink" href="Contact.html">Contact</a>
+    <div class="mm-foot">
+      <div class="langsw"><a href="About Us.html" class="on">EN</a><a href="zh-CN/About Us.html">简</a><a href="zh-TW/About Us.html">繁</a></div>
+      <a href="Contact.html" class="demo">Book a demo</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="cine-bg"></div>
+  <div class="cine-grid"></div>
+  <div class="cine-veil"></div>
+  <div class="cine-scan"></div>
+  <div class="cine-noise"></div>
+  <span class="hud tr"><span class="rec">REC</span> · 4K CAPTURE</span>
+  <span class="hud bl">SONY CMOS · DUAL MICRO OLED</span>
+  <span class="hud br">14× DIGITAL ZOOM · 1080P/60</span>
+  <div class="reticle"><span class="a"></span><span class="b"></span><span class="c"></span><span class="d"></span><span class="cross"></span></div>
+  <div class="wrap inner">
+    <div class="eyebrow rv">About Bewelltech</div>
+    <h1 class="rv">Medicine digitized everything — <em>except the surgeon's own eyes.</em></h1>
+    <p class="sub rv">We built arLoupe to close it — a wearable that turns the surgeon's magnified view into a live digital stream. Captured. Broadcast. Built to learn.</p>
+    <div class="cta-row rv">
+      <a href="#cta" class="btn-lime">Book a 15-min test drive →</a>
+      <a href="#problem" class="btn-ghost">Why we exist</a>
+    </div>
+    <div class="hero-visual rv">
+      <div class="ph"><img src="https://images.unsplash.com/photo-1551601651-2a8555f1a136?auto=format&amp;fit=crop&amp;q=80&amp;w=1600" alt="Surgeons at work" loading="lazy" onerror="this.closest('.ph').classList.add('brk')"><span class="tick"></span><span class="cap">HERO — arLoupe G-series device render / surgeon wearing headset</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- MISSION -->
+<section class="mission">
+  <div class="wrap">
+    <div class="eyebrow rv">Our mission</div>
+    <p class="big rv">To capture medicine from the provider's <span class="hl">exact perspective</span> — and unlock the insight to transform how surgery is performed, taught, and learned.</p>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem" id="problem">
+  <div class="wrap">
+    <div class="grid">
+      <div>
+        <div class="eyebrow rv">The last analog island</div>
+        <h2 class="rv">The medical black box.</h2>
+        <p class="rv">Imaging, charting, scheduling — every part of the clinic went digital. <span class="em">Except the execution of medicine itself,</span> still unrecorded from the one view that matters most: the surgeon's eyes.</p>
+        <p class="rv">Loupes and microscopes are analog islands. Surgeons can't review their work. Schools can't teach from the chair. The most valuable view in the room stays trapped behind glass.</p>
+        <div class="quote rv">"Optical glass is a dead-end for data."</div>
+      </div>
+      <div class="rv">
+        <div class="ph"><img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&amp;fit=crop&amp;q=80&amp;w=1100" alt="Digital imaging review" loading="lazy" onerror="this.closest('.ph').classList.add('brk')"><span class="tick"></span><span class="cap">DIAGRAM — analog loupe (locked view) vs. arLoupe (digital stream)</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section class="solution" id="solution">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow rv">What we built</div>
+      <h2 class="rv">arLoupe completely <em>digitizes</em> the surgical field.</h2>
+      <p class="lede rv">A high-speed Sony sensor and dual Micro&nbsp;OLED screens replace ground glass — microscope-grade vision you can zoom, record, and broadcast live. It comes down to three things.</p>
+    </div>
+    <div class="pillars">
+      <div class="pillar rv">
+        <div class="pk">See more</div><div class="pn disp">01</div>
+        <h3>High-Fidelity Clinical Intelligence</h3>
+        <p>The confidence of a $100k floor microscope, in a wearable. Instant digital zoom — from broad site prep to anatomical micro-detail. None of the footprint or the cost.</p>
+      </div>
+      <div class="pillar rv">
+        <div class="pk">Stay present</div><div class="pn disp">02</div>
+        <h3>Expanded Situational Sight</h3>
+        <p>No more tunnel vision. An open digital overlay keeps you on the surgical site and aware of your team, instruments, and room — no flipping lenses.</p>
+      </div>
+      <div class="pillar rv">
+        <div class="pk">Teach live</div><div class="pn disp">03</div>
+        <h3>Through-the-Lens Training</h3>
+        <p>One connection broadcasts your first-person view in real-time 1080p. No more crowding over shoulders — one procedure becomes a classroom.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+  <div class="wrap">
+    <div class="row">
+      <div class="stat rv"><div class="num">2015</div><div class="lab">Founded, with R&amp;D based in Taipei</div></div>
+      <div class="stat rv"><div class="num">15+</div><div class="lab">Countries with authorized distributors</div></div>
+      <div class="stat rv"><div class="num">World's 1st</div><div class="lab">Head-mounted 3D digital magnifying loupe</div></div>
+      <div class="stat rv"><div class="num">$100k</div><div class="lab">Microscope Tax arLoupe eliminates</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="story" id="story">
+  <div class="wrap">
+    <div class="grid">
+      <div>
+        <div class="eyebrow rv">Who we are</div>
+        <h2 class="rv">An optics company with a software soul.</h2>
+        <p class="rv">Founded in 2015 with R&amp;D in Taipei, Bewelltech builds advanced medical imaging. We created the world's first head-mounted 3D digital magnifying loupe — and commercialized it where the need is sharpest, starting in dentistry.</p>
+        <p class="rv">We scale through authorized dealers in 15+ countries: clinical trust on the ground, while we build the connected future of surgical visualization.</p>
+      </div>
+      <div class="facts rv">
+        <div class="fact"><div class="k">Headquarters</div><div class="v">Taipei <small>· Taiwan</small></div></div>
+        <div class="fact"><div class="k">Founded</div><div class="v">2015</div></div>
+        <div class="fact"><div class="k">Beachhead market</div><div class="v">Dental <small>· surgery next</small></div></div>
+        <div class="fact"><div class="k">Reach</div><div class="v">15+ <small>countries</small></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VISION -->
+<section class="vision" id="vision">
+  <div class="wrap">
+    <div class="eyebrow rv">Where we're going</div>
+    <h2 class="rv">From a recording tool to a <em>learning engine.</em></h2>
+    <p class="lede rv">arLoupe began in dentistry — the vision is bigger. As the field connects, every procedure becomes data and every device gets smarter. We're building it in deliberate stages.</p>
+    <div class="roadmap">
+      <div class="rmap rv">
+        <div class="ph-num">NOW</div>
+        <h3>The clinical foundation</h3>
+        <p>Perfecting the optics, ergonomics, and clinical trust of the hardware clinicians rely on today.</p>
+      </div>
+      <div class="rmap rv">
+        <div class="ph-num">NEXT</div>
+        <h3>The connected ecosystem</h3>
+        <p>Cloud-connected capture and an education portal — record, store, review, and broadcast procedures for remote teaching.</p>
+      </div>
+      <div class="rmap rv">
+        <div class="ph-num">THE LEAP</div>
+        <h3>Intelligence in the field</h3>
+        <p>As the data matures, real-time guidance moves toward the operatory — the first-person view as a co-pilot for precision care.</p>
+      </div>
+    </div>
+    <p class="note rv">→ Connected-ecosystem and intelligence capabilities describe our product vision and development roadmap.</p>
+  </div>
+</section>
+
+<!-- PEDIGREE -->
+<section class="pedigree">
+  <div class="wrap">
+    <div class="eyebrow rv">The people behind it</div>
+    <h2 class="rv">Built by veterans of the industries this brings together.</h2>
+    <p class="lede rv">arLoupe sits where semiconductor engineering, global hardware, enterprise software, and medical devices meet. Our leadership has spent decades in each — exactly the range it takes to digitize the surgical field.</p>
+    <div class="badges rv">
+      <span class="badge"><span class="dot"></span>Semiconductor R&amp;D</span>
+      <span class="badge"><span class="dot"></span>Global hardware &amp; channel</span>
+      <span class="badge"><span class="dot"></span>Enterprise software</span>
+      <span class="badge"><span class="dot"></span>SaaS &amp; platforms</span>
+      <span class="badge"><span class="dot"></span>Medical device development</span>
+    </div>
+    <div class="disciplines rv">
+      <div class="disc"><div class="dk">Hardware</div><p>Decades building and scaling consumer and medical hardware across Asia's manufacturing base.</p></div>
+      <div class="disc"><div class="dk">Channel</div><p>Global business development and reseller networks that put devices in clinicians' hands.</p></div>
+      <div class="disc"><div class="dk">Software</div><p>Scalable database, cloud, and platform architecture for the connected ecosystem ahead.</p></div>
+      <div class="disc"><div class="dk">Medical</div><p>Regulated medical-device development and complex, patented production technology.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="cta">
+  <div class="wrap">
+    <h2 class="disp rv">See it through your own eyes.</h2>
+    <p class="rv">The fastest way to understand arLoupe is to wear it. Book a 15-minute, no-obligation clinical test drive — we bring the complete system to your practice.</p>
+    <a href="mailto:info@bewelltechs.com" class="btn-dark rv">Book a test drive →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site">
+  <div class="wrap">
+    <div class="top">
+      <div class="col">
+        <img class="logo" src="assets/arloupe-logo.png" alt="arLoupe">
+        <p>Bewelltech Inc. — digitizing the surgical field so clinicians can see more, stay present, and teach live.</p>
+      </div>
+      <div class="fnav">
+        <div class="grp"><h5>Product</h5><a href="Products.html">arLoupe</a><a href="Products.html#features">Features</a><a href="Contact.html">Book a demo</a></div>
+        <div class="grp"><h5>Company</h5><a href="About Us.html">About</a><a href="Find a Dealer.html">Find a dealer</a><a href="Contact.html">Contact</a></div>
+        <div class="grp"><h5>HQ</h5><a href="Contact.html">Taipei, Taiwan</a><a href="mailto:info@bewelltechs.com">info@bewelltechs.com</a><a href="https://bewelltechs.com">bewelltechs.com</a></div>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© 2026 Bewelltech Inc. All rights reserved.</span>
+      <span class="mono">arLoupe® · The Digital Surgical Field</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const els=document.querySelectorAll('.rv');
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return; // base .rv already visible
+  document.body.classList.add('anim');
+  const reveal=el=>el.classList.add('in');
+  const vh=window.innerHeight;
+  els.forEach((el,i)=>{ el.style.transitionDelay=(Math.min(i%6,5)*55)+'ms'; });
+  // reveal anything in the first viewport immediately (no wait on observer)
+  els.forEach(el=>{ if(el.getBoundingClientRect().top < vh*0.95) reveal(el); });
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{ if(e.isIntersecting){ reveal(e.target); io.unobserve(e.target);} });
+  },{threshold:.12, rootMargin:'0px 0px -8% 0px'});
+  els.forEach(el=>io.observe(el));
+  // failsafe: never let content stay hidden
+  setTimeout(()=>els.forEach(reveal), 1600);
+})();
+</script>
+
+<script>
+(function(){
+  var b=document.getElementById('menuBtn'),m=document.getElementById('mobileMenu');
+  if(!b||!m) return;
+  b.addEventListener('click',function(){
+    var o=m.classList.toggle('open');
+    b.classList.toggle('open',o);
+    b.setAttribute('aria-expanded',o);
+  });
+  m.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){m.classList.remove('open');b.classList.remove('open');b.setAttribute('aria-expanded','false');});
+  });
+})();
+</script>
+
+</body></html>
