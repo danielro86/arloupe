@@ -115,8 +115,9 @@
   .problem p{color:#bcc0b5;font-size:17px;margin-bottom:16px;}
   .problem p .em{color:#fff;font-weight:600;}
   .problem .quote{margin-top:26px;border-left:3px solid var(--lime);padding-left:20px;font-family:"Familjen Grotesk","Noto Serif SC",serif;font-size:20px;color:#e7eadf;font-weight:500;}
-  .problem .ph{height:auto;background:#fff;border-color:#cdd9bf;align-items:stretch;}
-  .problem .ph > img{position:static;width:100%;height:auto;object-fit:contain;}
+  .problem .ph{height:420px;}
+  .problem .ph > img[src*="intraoral"]{filter:saturate(.5) brightness(.82) contrast(.96);}
+  .problem .ph:has(img[src*="intraoral"])::after{content:"";position:absolute;inset:0;background:rgba(14,18,10,.34);z-index:1;pointer-events:none;}
 
   /* SOLUTION / pillars */
   .solution{background:var(--paper);padding:92px 0;}
@@ -313,7 +314,7 @@
         <div class="quote rv">「光学镜片是数据的死胡同。」</div>
       </div>
       <div class="rv">
-        <div class="ph"><img src="../assets/diagram-loupe-vs-arloupe.png" alt="Digital imaging review" loading="lazy" onerror="this.closest('.ph').classList.add('brk')"></div>
+        <div class="ph"><img src="../assets/intraoral-closeup.jpg" alt="Magnified surgical view" loading="lazy" onerror="this.closest('.ph').classList.add('brk')"></div>
       </div>
     </div>
   </div>
