@@ -54,11 +54,15 @@
   .ph:has(img:not(.brk)) .cap{display:none;}
   .ph:has(img:not(.brk)) .tick{display:none;}
   .ph.brk > img{display:none;}
+  /* soften clinical intra-oral imagery so it reads clinical, not visceral */
+  .ph > img[src*="magnified-detail"]{filter:saturate(.55) brightness(.9) contrast(.96);}
+  .ph:has(img[src*="magnified-detail"])::after{content:"";position:absolute;inset:0;background:rgba(16,20,12,.30);z-index:1;pointer-events:none;}
+  .ph > img[src*="home-students-watching"],.ph > img[src*="home-live-stream"]{filter:saturate(.72);}
 
   /* HERO — cinematic */
   .hero{background:#0b0e08;color:var(--paper);position:relative;overflow:hidden;min-height:92vh;display:flex;align-items:center;padding:150px 0 110px;}
   .hero .hero-visual{display:none;}
-  .cine-bg{position:absolute;inset:0;background:url("https://images.unsplash.com/photo-1581595220892-b0739db3ba8c?auto=format&fit=crop&q=80&w=1900") center 26%/cover;filter:grayscale(.25) contrast(1.05) brightness(.5) saturate(.85);transform:scale(1.1);animation:kenburns 30s ease-in-out infinite alternate;will-change:transform;}
+  .cine-bg{position:absolute;inset:0;background:url("../assets/home-hero-clinician.jpg") center 26%/cover;filter:grayscale(.25) contrast(1.05) brightness(.5) saturate(.85);transform:scale(1.1);animation:kenburns 30s ease-in-out infinite alternate;will-change:transform;}
   .cine-grid{position:absolute;left:-30%;right:-30%;bottom:-8%;height:72%;background-image:linear-gradient(rgba(143,203,60,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(143,203,60,.10) 1px,transparent 1px);background-size:48px 48px;transform:perspective(420px) rotateX(64deg);transform-origin:50% 100%;-webkit-mask-image:linear-gradient(to top,#000,transparent 82%);mask-image:linear-gradient(to top,#000,transparent 82%);animation:griddrift 7s linear infinite;opacity:.5;}
   .cine-veil{position:absolute;inset:0;background:linear-gradient(95deg, rgba(8,11,6,.95) 0%, rgba(8,11,6,.8) 36%, rgba(8,11,6,.42) 66%, rgba(20,34,12,.5) 100%), radial-gradient(1100px 640px at 82% -5%, rgba(111,168,33,.26), transparent 62%);}
   .cine-scan{position:absolute;left:0;right:0;top:-180px;height:170px;pointer-events:none;background:linear-gradient(to bottom, transparent, rgba(143,203,60,.06) 42%, rgba(143,203,60,.15) 50%, rgba(143,203,60,.06) 58%, transparent);animation:scansweep 6.5s cubic-bezier(.7,0,.3,1) infinite;}
@@ -350,7 +354,7 @@
     </div>
     <div class="pillars">
       <div class="pillar rv">
-        <div class="ph"><img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&amp;fit=crop&amp;q=80&amp;w=900" alt="Magnification comparison" loading="lazy" onerror="this.closest('.ph').classList.add('brk')"><span class="cap">IMG — zoomed anatomical detail</span></div>
+        <div class="ph"><img src="../assets/magnified-detail.png" alt="Magnification comparison" loading="lazy" onerror="this.closest('.ph').classList.add('brk')"></div>
         <div class="pbody">
           <div class="pk">看得更清</div>
           <h3 class="disp">高保真临床洞察</h3>
@@ -358,7 +362,7 @@
         </div>
       </div>
       <div class="pillar rv">
-        <div class="ph"><img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&amp;fit=crop&amp;q=80&amp;w=900" alt="arLoupe in use" loading="lazy" onerror="this.closest('.ph').classList.add('brk')"><span class="cap">IMG — open overlay, aware of the room</span></div>
+        <div class="ph"><img src="../assets/home-room-aware.jpg" alt="arLoupe in use" loading="lazy" onerror="this.closest('.ph').classList.add('brk')"></div>
         <div class="pbody">
           <div class="pk">全程在场</div>
           <h3 class="disp">更广的态势视野</h3>
@@ -366,7 +370,7 @@
         </div>
       </div>
       <div class="pillar rv">
-        <div class="ph"><img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&amp;fit=crop&amp;q=80&amp;w=900" alt="Live first-person stream" loading="lazy" onerror="this.closest('.ph').classList.add('brk')"><span class="cap">IMG — live stream to OR display</span></div>
+        <div class="ph"><img src="../assets/home-live-stream.jpg" alt="Live first-person stream" loading="lazy" onerror="this.closest('.ph').classList.add('brk')"></div>
         <div class="pbody">
           <div class="pk">实时教学</div>
           <h3 class="disp">镜头即课堂</h3>
@@ -398,7 +402,7 @@
         <a href="Products.html" class="btn-dark rv">查看完整规格与型号 →</a>
       </div>
       <div class="rv">
-        <div class="ph light"><img src="https://images.unsplash.com/photo-1551601651-2a8555f1a136?auto=format&amp;fit=crop&amp;q=80&amp;w=1600" alt="arLoupe in clinical use" loading="lazy" onerror="this.closest('.ph').classList.add('brk')"><span class="tick"></span><span class="cap">PRODUCT — arLoupe G-W &amp; G-L hero render</span></div>
+        <div class="ph light"><img src="../assets/product-hero-gseries.jpg" alt="arLoupe in clinical use" loading="lazy" onerror="this.closest('.ph').classList.add('brk')"></div>
       </div>
     </div>
   </div>
@@ -428,7 +432,7 @@
   <div class="wrap">
     <div class="grid">
       <div class="rv">
-        <div class="ph"><img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&amp;fit=crop&amp;q=80&amp;w=1600" alt="Students watching a live stream" loading="lazy" onerror="this.closest('.ph').classList.add('brk')"><span class="tick"></span><span class="cap">IMG — students watching a live first-person stream</span></div>
+        <div class="ph"><img src="../assets/home-students-watching.jpg" alt="Students watching a live stream" loading="lazy" onerror="this.closest('.ph').classList.add('brk')"></div>
       </div>
       <div>
         <div class="eyebrow sec-eyebrow rv">为教学者</div>
