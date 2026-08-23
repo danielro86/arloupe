@@ -63,6 +63,8 @@
   .form .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
   @media(max-width:520px){.form .row2{grid-template-columns:1fr;}}
   .formnote{font-size:12.5px;color:var(--muted);margin-top:6px;}
+  .formerr{display:none;font-size:13px;color:#c2691b;font-weight:600;margin-top:12px;}
+  .formerr.show{display:block;}
   .thanks{display:none;text-align:center;padding:30px 10px;}
   .thanks.show{display:block;}
   .thanks .ic{width:60px;height:60px;border-radius:50%;background:#eaf4dd;color:var(--lime);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:30px;}
@@ -182,19 +184,19 @@
   <div class="wrap">
     <div class="cgrid">
       <!-- FORM -->
-      <div class="form rv" id="form">
+      <form class="form rv" id="form" action="https://formspree.io/f/xvkpyjwp" method="POST" novalidate>
         <div class="fields">
           <h2 class="disp">预约演示</h2>
           <p class="fsub">视觉化专员将与你联系安排时间。</p>
           <div class="row2">
-            <div class="field"><label>名字 <span class="req">*</span></label><input type="text" id="fn" placeholder="名字"></div>
-            <div class="field"><label>姓氏 <span class="req">*</span></label><input type="text" id="ln" placeholder="姓氏"></div>
+            <div class="field"><label>名字 <span class="req">*</span></label><input type="text" id="fn" name="First name" placeholder="名字"></div>
+            <div class="field"><label>姓氏 <span class="req">*</span></label><input type="text" id="ln" name="Last name" placeholder="姓氏"></div>
           </div>
-          <div class="field"><label>电子邮箱 <span class="req">*</span></label><input type="email" id="em" placeholder="jane@practice.com"></div>
+          <div class="field"><label>电子邮箱 <span class="req">*</span></label><input type="email" id="em" name="email" placeholder="jane@practice.com"></div>
           <div class="row2">
-            <div class="field"><label>诊所 / 机构</label><input type="text" id="pr" placeholder="诊所名称"></div>
+            <div class="field"><label>诊所 / 机构</label><input type="text" id="pr" name="Practice" placeholder="诊所名称"></div>
             <div class="field"><label>专科</label>
-              <select id="sp">
+              <select id="sp" name="Specialty">
                 <option value="">请选择…</option>
                 <option>普通牙科</option>
                 <option>牙髓病科</option>
@@ -207,8 +209,9 @@
               </select>
             </div>
           </div>
-          <div class="field"><label>还有什么需要告诉我们的吗？</label><textarea id="msg" placeholder="你的工作距离、现用放大镜、想了解的内容…"></textarea></div>
-          <button class="btn-lime" id="submit">预约我的试戴 →</button>
+          <div class="field"><label>还有什么需要告诉我们的吗？</label><textarea id="msg" name="Message" placeholder="你的工作距离、现用放大镜、想了解的内容…"></textarea></div>
+          <input type="hidden" name="_subject" value="New arLoupe demo request"><input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden"><button class="btn-lime" id="submit" type="submit">预约我的试戴 →</button>
+          <p class="formerr" id="formerr" role="alert"></p>
           <p class="formnote">提交即表示你同意就 arLoupe 接受联系。我们绝不分享你的资料。</p>
         </div>
         <div class="thanks" id="thanks">
@@ -216,7 +219,7 @@
           <h3 class="disp">谢谢——我们已收到。</h3>
           <p>视觉化专员将在一个工作日内透过电子邮件与你联系，安排演示。</p>
         </div>
-      </div>
+      </form>
 
       <!-- INFO -->
       <div class="info">
@@ -264,17 +267,35 @@
 </footer>
 
 <script>
-document.getElementById('submit').addEventListener('click',()=>{
-  const fn=document.getElementById('fn').value.trim();
-  const em=document.getElementById('em').value.trim();
+document.getElementById('form').addEventListener('submit', async function(e){
+  e.preventDefault();
+  var form=this;
+  var fnEl=document.getElementById('fn'), emEl=document.getElementById('em');
+  var fn=fnEl.value.trim(), em=emEl.value.trim();
+  var err=document.getElementById('formerr');
+  err.classList.remove('show');
   if(!fn || !em || !/.+@.+\..+/.test(em)){
-    if(!fn) document.getElementById('fn').focus();
-    else document.getElementById('em').focus();
-    [document.getElementById('fn'),document.getElementById('em')].forEach(el=>{ if(!el.value.trim()||(el.id==='em'&&!/.+@.+\..+/.test(el.value))) el.style.borderColor='#c2691b'; });
+    if(!fn){ fnEl.focus(); } else { emEl.focus(); }
+    [fnEl,emEl].forEach(function(el){ if(!el.value.trim()||(el.id==='em'&&!/.+@.+\..+/.test(el.value))) el.style.borderColor='#c2691b'; });
     return;
   }
-  document.getElementById('form').classList.add('sent');
-  document.getElementById('thanks').classList.add('show');
+  var btn=document.getElementById('submit'); var label=btn.textContent;
+  btn.disabled=true; btn.style.opacity='.7'; btn.textContent='Sending\u2026';
+  try{
+    var res=await fetch(form.action,{method:'POST', body:new FormData(form), headers:{'Accept':'application/json'}});
+    if(res.ok){
+      form.classList.add('sent');
+      document.getElementById('thanks').classList.add('show');
+      form.scrollIntoView({behavior:'smooth', block:'center'});
+    } else {
+      var data=await res.json().catch(function(){return {};});
+      err.textContent=(data && data.errors && data.errors[0] && data.errors[0].message) ? data.errors[0].message : 'Something went wrong. Please email info@bewelltechs.com and we will help.';
+      err.classList.add('show'); btn.disabled=false; btn.style.opacity='1'; btn.textContent=label;
+    }
+  } catch(ex){
+    err.textContent='Network error \u2014 please check your connection, or email info@bewelltechs.com.';
+    err.classList.add('show'); btn.disabled=false; btn.style.opacity='1'; btn.textContent=label;
+  }
 });
 
 (function(){
